@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>35 Seconds Beautiful End Flower Spirograph</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: #030303; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+        canvas { 
+            border: 2px solid #151515; 
+            box-shadow: 0px 0px 50px rgba(255, 0, 127, 0.35); 
+            border-radius: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    let linesCount = 0;
+    let angle = 0;
+    // సెకనుకి 25 లైన్ల చొప్పున 35 సెకన్ల పాటు రన్ అవుతుంది (25 * 35 = 875 లైన్లు)
+    let maxLines = 875; 
+
+    function setup() {
+        createCanvas(400, 700); // పక్కా మొబైల్ షార్ట్స్ సైజ్ (9:16)
+        background(0);
+        angleMode(DEGREES);
+        frameRate(25); 
+    }
+
+    function draw() {
+        if (linesCount >= maxLines) {
+            noLoop(); // డిజైన్ పూర్తి కాగానే స్క్రీన్ మీద అలాగే ఆగిపోతుంది
+            return;
+        }
+
+        translate(width / 2, height / 2);
+
+        // --- రాయల్ కలర్ చేంజింగ్ మ్యాజిక్ ---
+        // నియాన్ పింక్, స్కై బ్లూ, పర్పుల్ అండ్ గోల్డ్ రంగులు ఒకదానితో ఒకటి కలిసిపోతాయి
+        colorMode(HSB, 360, 100, 100);
+        let hueValue = (linesCount * 0.5) % 360; 
+        let strokeColor = color(hueValue, 90, 100);
+
+        // రిచ్ గ్లోయింగ్ లైటింగ్ ఎఫెక్ట్
+        drawingContext.shadowBlur = 15;
+        drawingContext.shadowColor = strokeColor;
+
+        stroke(strokeColor);
+        strokeWeight(1.2);
+        noFill();
+
+        // లైన్ల సైజ్ (ఇది చివర్లో ఒక పర్ఫెక్ట్ సిమెట్రికల్ ఫ్లవర్ ఆకారాన్ని తెస్తుంది)
+        let r = map(linesCount, 0, maxLines, 20, width * 0.9);
+        
+        rotate(angle);
+        
+        // --- చివర్లో బ్యూటిఫుల్ డిజైన్ తెచ్చే మ్యాజిక్ మ్యాథ్స్ షేప్ ---
+        beginShape();
+        for (let j = 0; j < 360; j += 90) {
+            let x = r * cos(j + linesCount * 0.1);
+            let y = r * sin(j + linesCount * 0.1);
+            
+            // లైన్ మరియు చివర్లో ముత్యం లాంటి చిన్న రింగ్స్
+            line(0, 0, x, y);
+            ellipse(x, y, 15, 15); 
+        }
+        endShape();
+
+        // 144 డిగ్రీల ప్రత్యేక యాంగిల్ - ఇది చివర్లో ఒక అద్భుతమైన నక్షత్రం లేదా పువ్వు లాంటి ఆకారాన్ని లాక్ చేస్తుంది
+        angle += 144; 
+        linesCount++;
+    }
+</script>
+
+</body>
+</html>
